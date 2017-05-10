@@ -23,5 +23,12 @@ class ZabbixProvider(object):
     def disable_host(self, host_id):
         return self.api.host.update(hostid=host_id, status=STATUS_DISABLED)
 
+    def host_exist(self, host_name):
+        response = self.api.host.get(
+            output=['hostid', 'name'],
+            filter={'host': host_name}
+        )
+        return response
+
     def __del__(self):
         self.api.user.logout()
